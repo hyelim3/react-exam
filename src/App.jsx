@@ -1,30 +1,50 @@
 import React, { useState } from "react";
-import Counter from "./components/Counter";
-import Converter from "./components/Converter";
-import MyBtn from "./components/MyBtn";
-
 function App() {
-  const [counter, setCounter] = useState(0); //useState(0) 초기상태 0 counter에 영향
+  const [amount, setAmount] = useState(0);
+  const [active, setActive] = useState(true);
+
+  const onChange = (event) => {
+    console.log(event);
+
+    setAmount(event.target.value);
+  };
+  const reset = () => {
+    setAmount(0);
+  };
+  const changeActive = () => {
+    reset();
+    setActive((prevState) => {
+      return !prevState;
+    });
+  };
+
   return (
-    <>
-      <Counter counter={counter} setCounter={setCounter} />
-      <Converter counter={counter} />
+    <div>
+      <div>Time Converter</div>
+      <div>
+        Minutes{" "}
+        <input
+          placeholder="Minutes"
+          value={active ? amount : amount * 60}
+          type="number"
+          onChange={onChange}
+          disabled={!active}
+        />
+        <div>
+          Hours{" "}
+          <input
+            type="number"
+            placeholder="Hours"
+            value={active ? Math.floor(amount / 60) : amount}
+            disabled={active}
+            onChange={onChange}
+          />
+        </div>
+        <button onClick={reset}>reset</button>
+        <button onClick={changeActive}>active toggle</button>
+      </div>
       <hr />
-      <MyBtn
-        text={"1번 버튼"}
-        fontSize={"30px"}
-        alertMsg={"1번이 클릭됨"}
-        isChecked={false}
-      />
-      <MyBtn
-        text={"2번 버튼"}
-        fontSize={"20px"}
-        alertMsg={"2번이 클릭됨"}
-        isChecked={true}
-        padding={"30px"}
-      />
-      <MyBtn text={"3번 버튼"} fontSize={"30px"} />
-    </>
+    </div>
   );
 }
 
