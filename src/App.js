@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useState } from "react";
+import TodoInsert from "./components/TodoInsert";
+import TodoTemplate from "./components/TodoTemplate";
 
-function App() {
+const App = () => {
+  const [todos, setTodos] = useState([]);
+  const nextId = useRef(1);
+  const onInsert = (text) => {
+    const todo = {
+      id: nextId,
+      text: text,
+      checked: false,
+    };
+    setTodos((todos) => todos.concat(todo));
+    nextId.current++;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TodoTemplate>
+      <TodoInsert onInsert={onInsert} />
+      <button
+        onClick={() => {
+          console.log(todos);
+        }}
+      >
+        show todos
+      </button>
+    </TodoTemplate>
   );
-}
-
+};
 export default App;
