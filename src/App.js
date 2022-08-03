@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import TodoInsert from "./components/TodoInsert";
 import TodoTemplate from "./components/TodoTemplate";
+
 import TodoList from "./components/TodoList";
 import TodoEdit from "./components/TodoEdit";
 
@@ -40,6 +41,13 @@ const App = () => {
     );
   };
 
+  const onUpdate = (id, text) => {
+    setTodos((todos) =>
+      todos.map((todo) => (todo.id === id ? { ...todo, text } : todo))
+    );
+    onInsertToggle();
+  };
+
   return (
     <TodoTemplate>
       <TodoInsert onInsert={onInsert} />
@@ -51,7 +59,11 @@ const App = () => {
         setSelectedTodo={setSelectedTodo}
       />
       {insertToggle && (
-        <TodoEdit onInsertToggle={onInsertToggle} selectedTodo={selectedTodo} />
+        <TodoEdit
+          onInsertToggle={onInsertToggle}
+          selectedTodo={selectedTodo}
+          onUpdate={onUpdate}
+        />
       )}
     </TodoTemplate>
   );
