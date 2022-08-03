@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/TodoEdit.scss";
 
-const TodoEdit = ({ onInsertToggle }) => {
+const TodoEdit = ({ onInsertToggle, selectedTodo }) => {
   const [value, setValue] = useState("");
   const onChange = (e) => {
     setValue(e.target.value);
@@ -10,6 +10,11 @@ const TodoEdit = ({ onInsertToggle }) => {
     e.preventDefault();
     onInsertToggle();
   };
+
+  useEffect(() => {
+    setValue(selectedTodo.Text);
+  }, [selectedTodo]);
+
   return (
     <div className="background">
       <form onSubmit={onSubmit} className="todoedit__insert">
