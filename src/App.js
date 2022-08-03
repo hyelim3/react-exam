@@ -22,10 +22,15 @@ const App = () => {
       )
     );
   };
+
+  const onRemove = (id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id)); //setTodo받아옴 돌다가 id가 같으면 삭제, filter 걸리는 것만 남김
+  };
+
   return (
     <TodoTemplate>
       <TodoInsert onInsert={onInsert} />
-      <TodoList todos={todos} onToggle={onToggle} />
+      <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
     </TodoTemplate>
   );
 };
