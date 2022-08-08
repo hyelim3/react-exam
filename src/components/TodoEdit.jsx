@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/TodoEdit.scss";
 
-const TodoEdit = ({ selectedTodo, onUpdate }) => {
+const TodoEdit = ({ onUpdate, selectedTodo }) => {
   const [value, setValue] = useState("");
   const onChange = (e) => {
     setValue(e.target.value);
@@ -13,7 +13,7 @@ const TodoEdit = ({ selectedTodo, onUpdate }) => {
   };
 
   useEffect(() => {
-    setValue(selectedTodo.Text);
+    setValue(selectedTodo.text);
   }, [selectedTodo]);
 
   return (
