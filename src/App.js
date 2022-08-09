@@ -28,12 +28,16 @@ const App = () => {
   };
 
   const onRemove = async (id) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    // setTodos((todos) => todos.filter((todo) => todo.id !== id));
 
     try {
-      const data = await axios({
+      await axios({
         url: `http://localhost:4000/todos/check/${id}`,
         method: "DELETE",
+      });
+      const data = await axios({
+        url: `http://localhost:4000/todos`,
+        method: "GET",
       });
       setTodos(data.data);
     } catch (e) {
@@ -108,6 +112,13 @@ const App = () => {
           onUpdate={onUpdate}
         />
       )}
+      <button
+        onClick={() => {
+          console.log(todos);
+        }}
+      >
+        check
+      </button>
     </TodoTemplate>
   );
 };
