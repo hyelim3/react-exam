@@ -13,14 +13,26 @@ const App = () => {
   const [error, setError] = useState(null);
   const nextId = useRef(4);
 
+  //db 추가
   const onInsert = async (text) => {
-    const todo = {
-      id: nextId.current,
-      text: text,
-      checked: false,
-    };
-    setTodos((todos) => todos.concat(todo));
-    nextId.current++;
+    // const todo = {
+    //   id: nextId.current,
+    //   text: text,
+    //   checked: false,
+    // };
+    // setTodos((todos) => todos.concat(todo));
+    // nextId.current++;
+
+    try {
+      const data = await axios({
+        url: `http://localhost:4000/todos`,
+        method: "POST",
+        data: { text },
+      });
+      setTodos(data.data);
+    } catch (e) {
+      setError(e);
+    }
   };
 
   const onInsertToggle = async (id) => {
@@ -58,9 +70,25 @@ const App = () => {
   };
   //수정
   const onUpdate = async (id, text) => {
-    setTodos((todos) =>
-      todos.map((todo) => (todo.id === id ? { ...todo, text } : todo))
-    );
+    // setTodos((todos) =>
+    //   todos.map((todo) => (todo.id === id ? { ...todo, text } : todo))
+    // );
+    console.log(id);
+    console.log(text);
+
+    try {
+      const data = await axios({
+        url: `http://localhost:4000/todos/${id}`,
+        method: "PATCH",
+        data: {
+          text,
+          perform_date: "2022-08-12 12:12:12",
+        },
+      });
+      setTodos(data.data);
+    } catch (e) {
+      setError(e);
+    }
     onInsertToggle();
   };
 
@@ -68,7 +96,7 @@ const App = () => {
     const getData = async () => {
       try {
         const data = await axios({
-          url: "http://localhost:4000/todos",
+          url: `http://localhost:4000/todos`,
           method: "GET",
         });
         console.log(data.data);
